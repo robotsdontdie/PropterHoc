@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Features.Indexed;
 using Newtonsoft.Json.Linq;
+using PropterHocPluginBase;
 using Serilog;
 
 namespace PropterHoc

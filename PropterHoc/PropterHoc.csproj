@@ -23,16 +23,21 @@
     <None Remove="Utils\" />
     <None Remove="stylecop.json" />
     <None Remove="Command\Impl\" />
+    <None Remove="Plugins\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Steps\" />
     <Folder Include="Utils\" />
     <Folder Include="Command\Impl\" />
+    <Folder Include="Plugins\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PropterHocPluginBase\PropterHocPluginBase.csproj" />
   </ItemGroup>
 </Project>

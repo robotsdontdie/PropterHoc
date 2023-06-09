@@ -1,4 +1,6 @@
-﻿namespace PropterHoc
+﻿using PropterHocPluginBase;
+
+namespace PropterHoc
 {
     public class SetVariableStep : Step
     {

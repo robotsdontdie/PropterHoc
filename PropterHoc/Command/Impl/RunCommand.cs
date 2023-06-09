@@ -1,27 +1,28 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using Autofac.Features.Indexed;
+using PropterHocPluginBase;
 using Serilog;
 
 namespace PropterHoc
 {
     [Command("run", "r")]
-    public class RunCommand : Command
+    public class RunCommand : Command, IRunCommand
     {
         public static readonly StepIdProvider DefaultStepIdProvider =
             () => DateTime.Now.GetSortableUniqueFilename();
 
         private readonly IIndex<string, Func<RunCommand, StepConfig, ILogger, Step>> stepIndex;
-        private readonly IIndex<string, MetaStep> metaStepIndex;
+        private readonly IMetaStepRegistry metaStepRegistry;
         private readonly StepIdProvider stepIdProvider;
 
         public RunCommand(
             IIndex<string, Func<RunCommand, StepConfig, ILogger, Step>> stepIndex,
-            IIndex<string, MetaStep> metaStepIndex,
+            IMetaStepRegistry metaStepRegistry,
             StepIdProvider stepIdProvider)
         {
             this.stepIndex = stepIndex;
-            this.metaStepIndex = metaStepIndex;
+            this.metaStepRegistry = metaStepRegistry;
             this.stepIdProvider = stepIdProvider;
         }
 
@@ -32,26 +33,26 @@ namespace PropterHoc
             var result = new CommandResult(Config);
             Logger.Information($"Command ID: {Config.CommandId}");
 
-            LinkedList<string> remainingArgs = new LinkedList<string>(args);
+            LinkedList<string> remainingSteps = new LinkedList<string>(args);
 
-            if (remainingArgs.First is null)
+            if (remainingSteps.First is null)
             {
                 return;
             }
 
-            if (remainingArgs.First.Value == "run" || remainingArgs.First.Value == "r")
+            if (remainingSteps.First.Value == "run" || remainingSteps.First.Value == "r")
             {
-                remainingArgs.RemoveFirst();
+                remainingSteps.RemoveFirst();
             }
 
             var realSteps = new List<Step>();
-            foreach (string arg in remainingArgs)
+            foreach (string arg in remainingSteps)
             {
-                if (metaStepIndex.TryGetValue(arg, out var metaStep))
+                if (metaStepRegistry.TryResolveMetaStep(arg, out var resolvedSteps))
                 {
-                    foreach (string aliasOutput in metaStep.Steps)
+                    foreach (string resolvedStep in resolvedSteps)
                     {
-                        remainingArgs.AddFirst(aliasOutput);
+                        remainingSteps.AddFirst(resolvedStep);
                     }
                 }
                 else if (stepIndex.TryGetValue(arg, out var step))

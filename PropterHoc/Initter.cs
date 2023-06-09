@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using Newtonsoft.Json;
+using PropterHoc.Plugins;
 using Serilog;
 
 namespace PropterHoc
@@ -53,6 +54,13 @@ namespace PropterHoc
 
             builder.RegisterInstance(Session.DefaultCommandIdProvider).As<Session.CommandIdProvider>();
             builder.RegisterInstance(RunCommand.DefaultStepIdProvider).As<RunCommand.StepIdProvider>();
+
+            var pluginLoader = new PluginLoader();
+            var plugins = pluginLoader.LoadFromSearchPath("/Users/sean/git/robotsdontdie/PropterHoc/PropterHoc.Unreal/bin/Debug/");
+            foreach (var plugin in plugins)
+            {
+                plugin.Init(builder);
+            }
 
             return builder.Build().Resolve<Session>();
         }

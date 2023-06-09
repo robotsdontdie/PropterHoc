@@ -1,4 +1,7 @@
-﻿namespace PropterHoc
+﻿using System;
+using System.Xml.Linq;
+
+namespace PropterHocPluginBase
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 
@@ -15,3 +18,4 @@
         public string[] Aliases { get; }
     }
 }
+

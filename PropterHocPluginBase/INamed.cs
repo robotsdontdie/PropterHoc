@@ -1,4 +1,5 @@
-﻿namespace PropterHoc
+﻿using System;
+namespace PropterHocPluginBase
 {
     public interface INamed
     {
@@ -7,3 +8,4 @@
         public string[] Aliases { get; }
     }
 }
+

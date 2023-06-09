@@ -63,25 +63,5 @@ namespace PropterHoc
 
             public StateVariable Target { get; }
         }
-
-        public class UnrealModule
-        {
-            public void Setup()
-            {
-            }
-        }
-
-        public abstract class UnrealStep : Step
-        {
-        }
-
-        [Step("build")]
-        public class UnrealBuild : UnrealStep
-        {
-            public override void Execute()
-            {
-                Console.WriteLine($"Building in step {Config.StepId}.");
-            }
-        }
     }
 }

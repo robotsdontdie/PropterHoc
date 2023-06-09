@@ -1,4 +1,6 @@
-﻿namespace PropterHoc
+﻿using PropterHocPluginBase;
+
+namespace PropterHoc
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class MetaStepAttribute : Attribute, INamed

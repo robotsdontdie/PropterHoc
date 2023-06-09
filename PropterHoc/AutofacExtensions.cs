@@ -2,6 +2,7 @@
 using System.Reflection;
 using Autofac;
 using Autofac.Core.Registration;
+using PropterHocPluginBase;
 using Serilog;
 
 namespace PropterHoc
